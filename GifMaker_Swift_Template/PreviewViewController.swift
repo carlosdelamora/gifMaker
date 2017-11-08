@@ -30,7 +30,26 @@ class PreviewViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-
+    @IBAction func shareGif(_ sender: Any){
+        var animatedGifData:Data?
+        do{
+          animatedGifData = try Data(contentsOf: gif!.url)
+        }catch{
+            return
+        }
+        let itemsToShare: [Data?] = [animatedGifData]
+        let activityController = UIActivityViewController(activityItems: itemsToShare, applicationActivities: nil)
+        activityController.completionWithItemsHandler = {activityType, completed, returnedItems, activityError in
+            if completed {
+               self.navigationController?.popToRootViewController(animated: true)
+            }
+        }
+        
+        present(activityController, animated: true)
+        
+    }
+    
+    
     /*
     // MARK: - Navigation
 
